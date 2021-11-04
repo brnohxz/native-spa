@@ -3,6 +3,12 @@ import Page from "../../core/templates/page";
 import SettingsPage from "../settings";
 import Statistics from "../statistics";
 
+const enum PagesId {
+    Main = 'main-page',
+    Settings = 'settings-page',
+    Statistics = 'statistics-page'
+}
+
 class App {
     private container: HTMLElement;
     private initialPage: MainPage
@@ -10,11 +16,11 @@ class App {
     static renderNewPage(idPage: string) {
         document.body.innerHTML = '';
         let page: Page | null = null
-        if (idPage === 'main-page') {
+        if (idPage === PagesId.Main) {
             page = new MainPage(idPage)
-        } else if (idPage ==='settings-page'){
+        } else if (idPage === PagesId.Settings){
             page = new SettingsPage(idPage)
-        } else if (idPage === 'statistics-page'){
+        } else if (idPage === PagesId.Statistics){
             page = new Statistics(idPage)
         }
 
@@ -26,8 +32,8 @@ class App {
 
     private enableRouteChange(){
         window.addEventListener('hashchange',()=>{
-            const hashValue = window.location.hash
-            console.log(hashValue)
+            const hashValue = window.location.hash.slice(1)
+            App.renderNewPage(hashValue)
         })
     }
 
